@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify
 import tensorflow as tf
+import os
+import requests
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
-
+from dotenv import load_dotenv
 
 # Load the model
 model = tf.keras.models.load_model('./model')
@@ -11,6 +13,13 @@ model = tf.keras.models.load_model('./model')
 # Load the label encoder
 label_encoder = LabelEncoder()
 label_encoder.classes_ = np.load('./model/label_encoder.npy', allow_pickle=True)
+
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Get the API key from the environment variable
+api_key = os.getenv('API_KEY')
 
 app = Flask(__name__)
 
@@ -53,6 +62,10 @@ def predict():
             breeds = dataframe.loc[dataframe['group'] == label]
             breeds = breeds.sort_values('popularity', ascending=False)
             top_breeds = breeds.head(5)
+
+            # Retrieve breed images from api-ninjas
+            top_breeds['breed_image'] = top_breeds['breed'].apply(retrieve_breed_image)
+
             result['predictions'].append({
                 'label': label,
                 'top_breeds': top_breeds.to_dict(orient='records')
@@ -67,6 +80,16 @@ def predict():
             'error_details': str(e),
         }
         return jsonify(error_json), 500
+
+def retrieve_breed_image(breed_name):
+    api_url = 'https://api.api-ninjas.com/v1/dogs?name={}'.format(breed_name)
+    response = requests.get(api_url, headers={'X-Api-Key': api_key})
+    breed_data = response.json()
+    if breed_data:
+        breed_image_url = breed_data[0]['image_link']  # Use index [0] to access the first item in the list
+        return breed_image_url
+    return ''
+
 
 if __name__ == '__main__':
     app.run(debug=True)
