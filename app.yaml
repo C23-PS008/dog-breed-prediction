@@ -1,1 +1,11 @@
 runtime: python37
+entrypoint: gunicorn -b :$PORT backend.app:app
+
+env_variables:
+  API_KEY: whh8IauneamDWrSUdGCj4g==FjLHGn1KQBkVxtCq
+
+handlers:
+  - url: /.*
+    script: auto
+    secure: always
+    redirect_http_response_code: 301
