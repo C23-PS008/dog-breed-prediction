@@ -33,29 +33,20 @@ pip install -r requirements.txt
 
 1\. Clone the repository:
 
-   ```
-
-   git clone https://github.com/your-username/dog-breed-prediction-api.git
-
-   cd dog-breed-prediction
-
-   ```
+    git clone https://github.com/your-username/dog-breed-prediction-api.git
+    cd dog-breed-prediction
    
 2\. Start the API server:
-
-   ```shell
-
-   python app.py
-
-   ```
+    
+    
+    python app.py
+    
 
 3\. Make a POST request to the API endpoint with the dog's characteristics:
+   ```
+    curl -X POST -H "Content-Type: application/json" -d '{"trainability_category": ["Reserved with Strangers"], "energy_level_category": ["Needs Lots of Activity"], "shedding_category": ["Occasional"], "grooming_frequency_category": ["Weekly"], "temperament_category": ["Active"], "weight_category": ["Medium"], "height_category": ["Medium"], "demeanor_category": ["Eager to Please"]}' http://localhost:5000/predict  
+  ```
 
-   ```shell
-
-   curl -X POST -H "Content-Type: application/json" -d '{"trainability_category": ["Reserved with Strangers"], "energy_level_category": ["Needs Lots of Activity"], "shedding_category": ["Occasional"], "grooming_frequency_category": ["Weekly"], "temperament_category": ["Active"], "weight_category": ["Medium"], "height_category": ["Medium"], "demeanor_category": ["Eager to Please"]}' http://localhost:5000/predict
-
-   ```
 
    Adjust the characteristics in the request payload to match the dog's attributes.
 
