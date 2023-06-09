@@ -75,9 +75,9 @@ pip install -r requirements.txt
 
 - `app.py`: The main Flask application file that defines the API endpoints and handles the prediction logic.
 
-- `models/model.h5`: The pre-trained machine learning model for breed prediction.
+- `model/model.h5`: The pre-trained machine learning model for breed prediction.
 
-- `data/breeds.csv`: The CSV file containing the dog breed data.
+- `data/akc-data-latest-final.csv`: The CSV file containing the dog breed data.
 
 - `requirements.txt`: The list of Python dependencies required for the project.
 
